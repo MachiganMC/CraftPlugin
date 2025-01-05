@@ -19,6 +19,11 @@ public final class CraftPlugin {
         ServerVersionChooser.setTools();
     }
 
+    public static void forceSpigotTools() {
+        ServerVersionChooser.setPaperServer(false);
+        ServerVersionChooser.setTools();
+    }
+
     public static void registerCommand(@NotNull String commandStr, @NotNull CommandExecutor executor, @Nullable TabCompleter completer) {
         PluginCommand command = getPlugin().getCommand(commandStr);
         if (command == null)return;

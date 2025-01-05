@@ -178,8 +178,7 @@ public class Message implements MessageRecipient {
 
     @ApiStatus.Internal
     public static void registerSender(ComponentSender sender) {
-        if (Message.sender == null)
-            Message.sender = sender;
+        Message.sender = sender;
         settings.setMessagesFile(new File(CraftPlugin.getPlugin().getDataFolder(), "messages.yml"));
     }
 }

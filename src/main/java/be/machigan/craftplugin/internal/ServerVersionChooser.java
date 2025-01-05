@@ -6,13 +6,15 @@ import be.machigan.craftplugin.formatter.message.sender.SpigotMessageSender;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ServerVersionChooser {
     @Getter
-    private static final boolean isPaperServer;
+    @Setter
+    private static boolean isPaperServer;
 
     static {
         boolean isPaperServerTemp;
