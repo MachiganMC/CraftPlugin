@@ -1,5 +1,5 @@
 package be.machigan.craftplugin;
-import be.machigan.craftplugin.internal.ServerVersionChooser;
+import be.machigan.craftplugin.utils.version.ServerVersion;
 import be.machigan.craftplugin.internal.exception.PluginNotRegisteredException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -16,12 +16,12 @@ public final class CraftPlugin {
     
     public static void registerPlugin(@NotNull JavaPlugin javaPlugin) {
         plugin = javaPlugin;
-        ServerVersionChooser.setTools();
+        ServerVersion.setTools();
     }
 
     public static void forceSpigotTools() {
-        ServerVersionChooser.setPaperServer(false);
-        ServerVersionChooser.setTools();
+        ServerVersion.setPaperServer(false);
+        ServerVersion.setTools();
     }
 
     public static void registerCommand(@NotNull String commandStr, @NotNull CommandExecutor executor, @Nullable TabCompleter completer) {
