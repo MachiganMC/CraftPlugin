@@ -29,6 +29,14 @@ public abstract class ColorBuilder<C> {
 
     public abstract @NotNull C toColoredComponent(String toColor);
 
+    public @NotNull List<C> toColoredComponents(List<String> toColor) {
+        return toColor
+                .stream()
+                .map(this::toColoredComponent)
+                .toList()
+                ;
+    }
+
     @SuppressWarnings("deprecation") // deprecated by Paper, but the server can be on Spigot
     protected String replaceColor(String text) {
         String b1;
@@ -59,7 +67,10 @@ public abstract class ColorBuilder<C> {
             matcher = pattern.matcher(text);
         }
 
-        return ChatColor.translateAlternateColorCodes('&', text);
+        return ChatColor.translateAlternateColorCodes('&', text)
+                .replace("\t", "   ")
+                .replace("\\t", "   ")
+                ;
     }
 
     private static int getCountedChar(String message) {

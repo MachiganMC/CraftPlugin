@@ -1,6 +1,8 @@
 package be.machigan.craftplugin;
-import be.machigan.craftplugin.utils.version.ServerVersion;
+
 import be.machigan.craftplugin.internal.exception.PluginNotRegisteredException;
+import be.machigan.craftplugin.menu.event.InventoryEventHandler;
+import be.machigan.craftplugin.utils.version.ServerVersion;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.bukkit.command.CommandExecutor;
@@ -16,6 +18,7 @@ public final class CraftPlugin {
     
     public static void registerPlugin(@NotNull JavaPlugin javaPlugin) {
         plugin = javaPlugin;
+        InventoryEventHandler.registerEvents();
         ServerVersion.setTools();
     }
 
