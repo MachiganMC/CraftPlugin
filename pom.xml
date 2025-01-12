@@ -6,7 +6,7 @@
 
     <groupId>be.machigan</groupId>
     <artifactId>craftplugin</artifactId>
-    <version>1.0.0-a.1</version>
+    <version>1.0.0-a.2</version>
     <packaging>jar</packaging>
     <name>CraftPlugin</name>
 
