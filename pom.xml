@@ -6,7 +6,7 @@
 
     <groupId>be.machigan</groupId>
     <artifactId>craftplugin</artifactId>
-    <version>1.0.0-a.2</version>
+    <version>1.0.0-a.3</version>
     <packaging>jar</packaging>
     <name>CraftPlugin</name>
     <url>https://github.com/MachiganMC/CraftPlugin</url>
@@ -81,7 +81,6 @@
                 <configuration>
                     <publishingServerId>central</publishingServerId>
                     <autoPublish>true</autoPublish>
-                    <waitUntil>published</waitUntil>
                 </configuration>
             </plugin>
         </plugins>
