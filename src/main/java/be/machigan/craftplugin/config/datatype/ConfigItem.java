@@ -2,7 +2,6 @@ package be.machigan.craftplugin.config.datatype;
 
 import be.machigan.craftplugin.config.Config;
 import be.machigan.craftplugin.config.ConfigChecker;
-import be.machigan.craftplugin.lambda.ParameterReturnableRunnable;
 import be.machigan.craftplugin.lambda.ParameterRunnable;
 import be.machigan.craftplugin.menu.item.Item;
 import com.google.common.base.CaseFormat;

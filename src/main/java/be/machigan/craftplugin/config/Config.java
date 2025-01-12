@@ -2,7 +2,6 @@ package be.machigan.craftplugin.config;
 
 import be.machigan.craftplugin.CraftPlugin;
 import lombok.Getter;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.logging.Level;
