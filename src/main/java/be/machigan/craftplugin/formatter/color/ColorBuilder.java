@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@ApiStatus.Internal
 public abstract class ColorBuilder<C> {
     protected static final String RGB_COLOR_REGEX = "§x(§[a-fA-F0-9]){6}";
     private static final List<Character> COLOR_CODE = Arrays.asList(

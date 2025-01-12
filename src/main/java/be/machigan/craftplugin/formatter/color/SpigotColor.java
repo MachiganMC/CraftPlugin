@@ -11,7 +11,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("deprecation")
-@ApiStatus.Internal
 public class SpigotColor extends ColorBuilder<BaseComponent[]> {
     @Override
     public BaseComponent @NotNull [] toColoredComponent(String toColor) {

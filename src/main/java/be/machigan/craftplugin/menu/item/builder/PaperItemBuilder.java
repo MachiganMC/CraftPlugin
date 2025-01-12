@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@ApiStatus.Internal
 public class PaperItemBuilder extends ItemBuilder {
     private final PaperColor color = new PaperColor();
 

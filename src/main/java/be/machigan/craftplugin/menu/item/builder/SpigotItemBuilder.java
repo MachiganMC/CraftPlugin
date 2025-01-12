@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@ApiStatus.Internal
 @SuppressWarnings("deprecation")
 public class SpigotItemBuilder extends ItemBuilder {
     private final StringColor color = new StringColor();

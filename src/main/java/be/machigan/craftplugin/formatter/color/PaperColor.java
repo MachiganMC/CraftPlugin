@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@ApiStatus.Internal
 public class PaperColor extends ColorBuilder<Component> {
     @Override
     public @NotNull Component toColoredComponent(String toColor) {

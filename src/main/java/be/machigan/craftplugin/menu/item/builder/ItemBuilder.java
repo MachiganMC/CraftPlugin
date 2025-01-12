@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
-@ApiStatus.Internal
 public abstract class ItemBuilder {
     protected final Item item;
 
