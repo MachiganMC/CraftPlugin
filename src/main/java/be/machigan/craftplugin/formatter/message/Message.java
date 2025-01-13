@@ -2,6 +2,7 @@ package be.machigan.craftplugin.formatter.message;
 
 
 import be.machigan.craftplugin.CraftPlugin;
+import be.machigan.craftplugin.formatter.color.AnsiColor;
 import be.machigan.craftplugin.formatter.color.StringColor;
 import be.machigan.craftplugin.formatter.message.sender.ComponentSender;
 import be.machigan.craftplugin.formatter.message.sender.MessageContent;
@@ -214,5 +215,9 @@ public class Message implements MessageRecipient {
     public static void registerSender(ComponentSender sender) {
         Message.sender = sender;
         settings.setMessagesFile(new File(CraftPlugin.getPlugin().getDataFolder(), "messages.yml"));
+    }
+
+    public static void log(String message) {
+        Bukkit.getConsoleSender().sendMessage(AnsiColor.ansi(message));
     }
 }
