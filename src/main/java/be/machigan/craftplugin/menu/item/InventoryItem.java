@@ -13,6 +13,7 @@ import java.util.UUID;
 public class InventoryItem {
     public static final NamespacedKey CANCEL_CLICK_KEY = new NamespacedKey(CraftPlugin.getPlugin(), "craft-plugin-cancel-click-key");
     public static final NamespacedKey CLICK_EVENT_KEY = new NamespacedKey(CraftPlugin.getPlugin(), "craft-plugin-click-event-key");
+    public static final NamespacedKey CLICK_CLOSE_INVENTORY = new NamespacedKey(CraftPlugin.getPlugin(), "craft-plugin-click-close-event");
     private final ItemBuilder builder;
 
     public InventoryItem(Item item) {
@@ -28,6 +29,11 @@ public class InventoryItem {
         UUID eventIdentifier = UUID.randomUUID();
         this.builder.addNamedSpacedKey(CLICK_EVENT_KEY, UuidDataType.INSTANCE, eventIdentifier);
         menu.addClickEvent(eventIdentifier, onClickEvent);
+        return this;
+    }
+
+    public InventoryItem closeOnClick() {
+        this.builder.addEmptyNamedSpacedKey(CLICK_CLOSE_INVENTORY).addEmptyNamedSpacedKey(CANCEL_CLICK_KEY);
         return this;
     }
 

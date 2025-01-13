@@ -19,6 +19,8 @@ public class InventoryClickEventHandler extends InventoryEventHandler {
         Item item = Item.builder(event.getCurrentItem()).build();
         if (item.hasNamedSpacedKey(InventoryItem.CANCEL_CLICK_KEY))
             event.setCancelled(true);
+        if (item.hasNamedSpacedKey(InventoryItem.CLICK_CLOSE_INVENTORY))
+            event.getView().close();
         if (item.hasNamedSpacedKey(InventoryItem.CLICK_EVENT_KEY, UuidDataType.INSTANCE))
             fireClickEvent(inventoryMenu, event, item);
     }
