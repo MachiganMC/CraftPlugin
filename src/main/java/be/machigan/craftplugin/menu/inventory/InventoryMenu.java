@@ -22,6 +22,8 @@ public class InventoryMenu implements InventoryHolder {
     private final Inventory inventory;
     @Getter @Setter
     private boolean isOpen = false;
+    @Getter @Setter
+    private boolean cancelClick = false;
     private final Map<UUID, ParameterRunnable<InventoryMenuClickEvent>> clickEvents = new HashMap<>();
     @Getter
     private final List<InventoryLifeCycleEvent> lifeCycleEvents = new ArrayList<>();

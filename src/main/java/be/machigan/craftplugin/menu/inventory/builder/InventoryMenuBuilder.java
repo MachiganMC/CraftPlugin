@@ -104,6 +104,11 @@ public class InventoryMenuBuilder {
         return this;
     }
 
+    public InventoryMenuBuilder cancelClick() {
+        this.menu.setCancelClick(true);
+        return this;
+    }
+
     public InventoryMenu build() {
         return this.menu;
     }
