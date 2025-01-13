@@ -5,6 +5,7 @@ import be.machigan.craftplugin.menu.item.Item;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.InventoryView;
 
 public record InventoryMenuClickEvent(
         ClickType click,
@@ -14,6 +15,7 @@ public record InventoryMenuClickEvent(
         int rawSlot,
         Item clickedItem,
         int hotbarKey,
-        InventoryMenuBuilder builder
+        InventoryMenuBuilder builder,
+        InventoryView view
 ) {
 }

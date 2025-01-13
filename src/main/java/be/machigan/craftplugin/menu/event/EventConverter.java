@@ -21,7 +21,8 @@ public class EventConverter {
                 event.getRawSlot(),
                 Item.builder(event.getCurrentItem()).build(),
                 event.getHotbarButton(),
-                InventoryMenu.builder(menu)
+                InventoryMenu.builder(menu),
+                event.getView()
         );
     }
 }
