@@ -28,6 +28,15 @@ public class SpigotItemBuilder extends ItemBuilder {
     }
 
     @Override
+    public ItemBuilder addLine(String line) {
+        return this.applyToMeta(meta -> {
+            List<String> lore = meta.getLore() != null ? meta.getLore() : new ArrayList<>();
+            lore.add(this.color.toColoredComponent(line));
+            meta.setLore(lore);
+        });
+    }
+
+    @Override
     public ItemBuilder setLoreLine(int line, String value) {
         Preconditions.checkArgument(line >= 0, "The lore line must be greater or equals to 0 (" + line + ")");
         this.applyToMeta(meta -> {

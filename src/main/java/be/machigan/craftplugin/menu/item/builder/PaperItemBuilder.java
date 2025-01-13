@@ -40,6 +40,17 @@ public class PaperItemBuilder extends ItemBuilder {
     }
 
     @Override
+    public ItemBuilder addLine(String line) {
+        return this.applyToMeta(meta -> {
+            List<Component> lore = meta.lore();
+            if (lore == null)
+                lore = new ArrayList<>();
+            lore.add(this.color.toColoredComponent(line));
+            meta.lore(lore);
+        });
+    }
+
+    @Override
     public ItemBuilder setLoreLine(int line, String value) {
         Preconditions.checkArgument(line >= 0, "The lore line must be greater or equals to 0 (" + line + ")");
         this.applyToMeta(meta -> {

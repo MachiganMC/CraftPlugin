@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Range;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,17 @@ public abstract class ItemBuilder {
     public abstract ItemBuilder name(String name);
 
     public abstract ItemBuilder lore(List<String> lore);
+
+    public abstract ItemBuilder addLine(String line);
+
+    public ItemBuilder addLines(List<String> lines) {
+        lines.forEach(this::addLine);
+        return this;
+    }
+
+    public ItemBuilder addLines(String... lines) {
+        return this.addLines(Arrays.asList(lines));
+    }
 
     public abstract ItemBuilder setLoreLine(int line, String value);
 
