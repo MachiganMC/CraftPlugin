@@ -3,6 +3,7 @@ package be.machigan.craftplugin.formatter.message;
 import be.machigan.craftplugin.CraftPlugin;
 import be.machigan.craftplugin.internal.exception.AsyncMessageBeingModifiedException;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -157,7 +158,7 @@ public class AsyncMessage implements MessageRecipient {
     }
 
     @Override
-    public void mail(@NotNull Player player) {
+    public void mail(@NotNull OfflinePlayer player) {
         this.sendAndApplyModifier(() -> this.message.mail(player));
     }
 
@@ -167,7 +168,7 @@ public class AsyncMessage implements MessageRecipient {
     }
 
     @Override
-    public void mail(@NotNull Collection<Player> players) {
+    public void mail(@NotNull Collection<OfflinePlayer> players) {
         this.sendAndApplyModifier(() -> this.message.mail(players));
     }
 

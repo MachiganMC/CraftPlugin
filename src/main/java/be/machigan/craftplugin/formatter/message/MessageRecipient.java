@@ -1,6 +1,7 @@
 package be.machigan.craftplugin.formatter.message;
 
 import be.machigan.craftplugin.formatter.message.sender.Sender;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
@@ -21,9 +22,9 @@ public interface MessageRecipient extends Sender {
 
     void broadcast();
 
-    void mail(@NotNull Player player);
+    void mail(@NotNull OfflinePlayer player);
 
-    void mail(@NotNull Collection<Player> players);
+    void mail(@NotNull Collection<OfflinePlayer> players);
 
     @Contract("_, _ -> this")
     @NotNull MessageRecipient replace(@NotNull String from, @NotNull String to);

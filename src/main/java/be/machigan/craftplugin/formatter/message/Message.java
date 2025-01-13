@@ -128,14 +128,14 @@ public class Message implements MessageRecipient {
     }
 
     @Override
-    public void mail(@NotNull Player player) {
+    public void mail(@NotNull OfflinePlayer player) {
         Tools.makeServerExecuteCommand(
                 "mail send " + player.getName() + " " + STRING_COLOR.toColoredComponent(this.content.getContent())
         );
     }
 
     @Override
-    public void mail(@NotNull Collection<Player> players) {
+    public void mail(@NotNull Collection<OfflinePlayer> players) {
         players.forEach(this::mail);
     }
 
