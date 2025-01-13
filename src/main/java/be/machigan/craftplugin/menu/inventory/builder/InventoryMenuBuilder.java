@@ -2,6 +2,7 @@ package be.machigan.craftplugin.menu.inventory.builder;
 
 import be.machigan.craftplugin.lambda.ParameterRunnable;
 import be.machigan.craftplugin.menu.event.lyfecycle.InventoryLifeCycleEvent;
+import be.machigan.craftplugin.menu.event.lyfecycle.InventoryMenuCloseEvent;
 import be.machigan.craftplugin.menu.inventory.InventoryMenu;
 import be.machigan.craftplugin.menu.item.Item;
 import com.google.common.base.Function;
@@ -101,6 +102,11 @@ public class InventoryMenuBuilder {
                 .filter(event -> event.getPosition() == position)
                 .forEach(InventoryLifeCycleEvent::onClose)
                 ;
+        return this;
+    }
+
+    public InventoryMenuBuilder onClose(ParameterRunnable<InventoryMenuCloseEvent> onClose) {
+        this.menu.addCloseEvent(onClose);
         return this;
     }
 

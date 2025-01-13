@@ -3,6 +3,7 @@ package be.machigan.craftplugin.menu.inventory;
 import be.machigan.craftplugin.lambda.ParameterRunnable;
 import be.machigan.craftplugin.menu.event.click.InventoryMenuClickEvent;
 import be.machigan.craftplugin.menu.event.lyfecycle.InventoryLifeCycleEvent;
+import be.machigan.craftplugin.menu.event.lyfecycle.InventoryMenuCloseEvent;
 import be.machigan.craftplugin.menu.inventory.builder.InventoryMenuBuilder;
 import be.machigan.craftplugin.menu.inventory.builder.InventoryMenuCreator;
 import be.machigan.craftplugin.menu.inventory.builder.PaperInventoryMenuCreator;
@@ -25,6 +26,7 @@ public class InventoryMenu implements InventoryHolder {
     @Getter @Setter
     private boolean cancelClick = false;
     private final Map<UUID, ParameterRunnable<InventoryMenuClickEvent>> clickEvents = new HashMap<>();
+    private final List<ParameterRunnable<InventoryMenuCloseEvent>> closeEvents = new ArrayList<>();
     @Getter
     private final List<InventoryLifeCycleEvent> lifeCycleEvents = new ArrayList<>();
     private static final InventoryMenuCreator menuCreator = ServerVersion.isPaperServer() ?
@@ -69,8 +71,13 @@ public class InventoryMenu implements InventoryHolder {
         this.lifeCycleEvents.forEach(eventsHolder -> eventsHolder.onOpen(this.builder()));
     }
 
-    public void fireCloseEvents() {
+    public void addCloseEvent(ParameterRunnable<InventoryMenuCloseEvent> onClose) {
+        this.closeEvents.add(onClose);
+    }
+
+    public void fireCloseEvents(InventoryMenuCloseEvent event) {
         this.lifeCycleEvents.forEach(InventoryLifeCycleEvent::onClose);
+        this.closeEvents.forEach(r -> r.run(event));
     }
 
     public Item getItem(int position) {
