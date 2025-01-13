@@ -3,6 +3,7 @@ package be.machigan.craftplugin.menu.event;
 import be.machigan.craftplugin.menu.event.click.InventoryMenuClickEvent;
 import be.machigan.craftplugin.menu.inventory.InventoryMenu;
 import be.machigan.craftplugin.menu.item.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class EventConverter {
@@ -22,7 +23,8 @@ public class EventConverter {
                 Item.builder(event.getCurrentItem()).build(),
                 event.getHotbarButton(),
                 InventoryMenu.builder(menu),
-                event.getView()
+                event.getView(),
+                (Player) event.getWhoClicked()
         );
     }
 }
