@@ -11,6 +11,7 @@ import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -70,6 +71,10 @@ public class Item {
 
     public void addToInventory(Inventory inventory) {
         inventory.addItem(this.itemStack);
+    }
+
+    public void addTo(Player player) {
+        player.getInventory().addItem(this.itemStack);
     }
 
     public static ItemBuilder customHeadFromBase64(@NotNull String b64) {
