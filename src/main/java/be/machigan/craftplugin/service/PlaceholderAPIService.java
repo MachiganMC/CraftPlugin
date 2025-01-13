@@ -3,6 +3,7 @@ package be.machigan.craftplugin.service;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.Contract;
@@ -25,6 +26,12 @@ public class PlaceholderAPIService {
 
     @Contract("null, _ -> null; !null, _ -> !null")
     public static String setPlaceholdersIfEnabled(String message, Player player) {
+        if (!isEnabled()) return message;
+        return PlaceholderAPI.setPlaceholders(player, message);
+    }
+
+    @Contract("null, _ -> null; !null, _ -> !null")
+    public static String setPlaceholdersIfEnabled(String message, OfflinePlayer player) {
         if (!isEnabled()) return message;
         return PlaceholderAPI.setPlaceholders(player, message);
     }

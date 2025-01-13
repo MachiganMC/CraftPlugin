@@ -5,7 +5,7 @@ import be.machigan.craftplugin.formatter.message.MessageSettings;
 import be.machigan.craftplugin.utils.Tools;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.entity.Player;
+import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,7 +19,7 @@ public class MessageContent {
     private String content;
     private final EnumMap<MessagePart, String> additionalContent = new EnumMap<>(MessagePart.class);
 
-    public MessageContent(MessageSettings settings, String path, Player player) {
+    public MessageContent(MessageSettings settings, String path, OfflinePlayer player) {
         this.content = settings.getContent(path, player);
         for (MessagePart part : MessagePart.values()) {
             this.additionalContent.put(part, settings.getAdditionalContent(path, part, player));

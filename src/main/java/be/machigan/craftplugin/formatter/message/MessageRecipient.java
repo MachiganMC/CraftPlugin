@@ -1,6 +1,7 @@
 package be.machigan.craftplugin.formatter.message;
 
 import be.machigan.craftplugin.formatter.message.sender.Sender;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -14,9 +15,15 @@ public interface MessageRecipient extends Sender {
 
     void send(@NotNull Player player);
 
+    void send(@NotNull CommandSender sender);
+
     void send(@NotNull Collection<Player> players);
 
     void broadcast();
+
+    void mail(@NotNull Player player);
+
+    void mail(@NotNull Collection<Player> players);
 
     @Contract("_, _ -> this")
     @NotNull MessageRecipient replace(@NotNull String from, @NotNull String to);
@@ -26,6 +33,9 @@ public interface MessageRecipient extends Sender {
 
     @Contract("_ -> this")
     @NotNull MessageRecipient replace(@NotNull MessagePlaceholder messagePlaceholder);
+
+    @Contract("_ -> this")
+    @NotNull MessageRecipient replace(@NotNull MessagePlaceholder... messagePlaceholders);
 
     @Contract("-> this")
     @NotNull MessageRecipient disableHoverContent();

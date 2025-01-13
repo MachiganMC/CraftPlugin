@@ -3,6 +3,7 @@ package be.machigan.craftplugin.formatter.message;
 import be.machigan.craftplugin.CraftPlugin;
 import be.machigan.craftplugin.internal.exception.AsyncMessageBeingModifiedException;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -64,6 +65,11 @@ public class AsyncMessage implements MessageRecipient {
     @Override
     public @NotNull MessageRecipient replace(@NotNull MessagePlaceholder messagePlaceholder) {
         return this.addToMessageModifierList(() -> this.message.replace(messagePlaceholder));
+    }
+
+    @Override
+    public @NotNull MessageRecipient replace(@NotNull MessagePlaceholder... messagePlaceholders) {
+        return this.addToMessageModifierList(() -> this.message.replace(messagePlaceholders));
     }
 
     @Override
@@ -148,6 +154,21 @@ public class AsyncMessage implements MessageRecipient {
     @Override
     public void broadcast() {
         this.sendAndApplyModifier(() -> this.message.broadcast());
+    }
+
+    @Override
+    public void mail(@NotNull Player player) {
+        this.sendAndApplyModifier(() -> this.message.mail(player));
+    }
+
+    @Override
+    public void send(@NotNull CommandSender sender) {
+        this.sendAndApplyModifier(() -> this.message.send(sender));
+    }
+
+    @Override
+    public void mail(@NotNull Collection<Player> players) {
+        this.sendAndApplyModifier(() -> this.message.mail(players));
     }
 
     @Override

@@ -5,10 +5,10 @@ import be.machigan.craftplugin.lambda.ParameterReturnableRunnable;
 import be.machigan.craftplugin.service.PlaceholderAPIService;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -63,13 +63,13 @@ public class MessageSettings {
     }
 
     @ApiStatus.Internal
-    public @Nullable String getContent(String path, Player player) {
+    public @Nullable String getContent(String path, OfflinePlayer player) {
         String content = messagesConfigFile.getString(path);
         return content == null ? null :  PlaceholderAPIService.setPlaceholdersIfEnabled(content, player);
     }
 
     @ApiStatus.Internal
-    public @Nullable String getAdditionalContent(String path, MessagePart part, Player player) {
+    public @Nullable String getAdditionalContent(String path, MessagePart part, OfflinePlayer player) {
         String additionalPathValue = additionalPathMap.get(part);
         if (additionalPathValue == null) return null;
         String additionalContent = messagesConfigFile.getString(path + additionalPathValue);

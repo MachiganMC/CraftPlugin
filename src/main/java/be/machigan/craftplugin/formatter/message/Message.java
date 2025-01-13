@@ -2,10 +2,15 @@ package be.machigan.craftplugin.formatter.message;
 
 
 import be.machigan.craftplugin.CraftPlugin;
+import be.machigan.craftplugin.formatter.color.StringColor;
 import be.machigan.craftplugin.formatter.message.sender.ComponentSender;
 import be.machigan.craftplugin.formatter.message.sender.MessageContent;
+import be.machigan.craftplugin.utils.Tools;
 import com.google.common.base.Preconditions;
 import lombok.Setter;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;
@@ -23,8 +28,9 @@ public class Message implements MessageRecipient {
     private static MessageSettings settings = new MessageSettings();
     private final MessageContent content;
     private boolean isCustomPlaceholdersEnable = true;
+    private static final StringColor STRING_COLOR = new StringColor();
 
-    Message(String path, Player player, boolean isNecessary) {
+    Message(String path, OfflinePlayer player, boolean isNecessary) {
         this.content = new MessageContent(settings, path, player);
         if (this.content.getContent() == null && isNecessary) {
             String error = settings.getMessageNotFoundError().run(path);
@@ -43,7 +49,7 @@ public class Message implements MessageRecipient {
     }
 
     @Contract("_, _ -> new")
-    public static @NotNull Message getMessage(@NotNull String path, @Nullable Player player) {
+    public static @NotNull Message getMessage(@NotNull String path, @Nullable OfflinePlayer player) {
         return getMessage(path, player, true);
     }
 
@@ -53,7 +59,7 @@ public class Message implements MessageRecipient {
     }
 
     @Contract("_, _, _ -> new")
-    public static @NotNull Message getMessage(@NotNull String path, @Nullable Player player, boolean isNecessary) {
+    public static @NotNull Message getMessage(@NotNull String path, @Nullable OfflinePlayer player, boolean isNecessary) {
         return new Message(path, player, isNecessary);
     }
 
@@ -75,8 +81,24 @@ public class Message implements MessageRecipient {
     }
 
     @Override
+    public void send(@NotNull CommandSender sender) {
+        if (sender instanceof Player player) {
+            this.send(player);
+        } else {
+            Bukkit.getConsoleSender().sendMessage(STRING_COLOR.toColoredComponent(this.content.getContent()));
+        }
+    }
+
+    @Override
     public @NotNull MessageRecipient replace(@NotNull MessagePlaceholder messagePlaceholder) {
         return this.replace(messagePlaceholder.getPlaceholdersMap());
+    }
+
+    @Override
+    public @NotNull MessageRecipient replace(@NotNull MessagePlaceholder... messagePlaceholders) {
+        for (MessagePlaceholder placeholder : messagePlaceholders)
+            this.replace(placeholder);
+        return this;
     }
 
     private void replaceCustomPlaceholders() {
@@ -103,6 +125,18 @@ public class Message implements MessageRecipient {
         this.replaceCustomPlaceholders();
         sender.broadcast(this.content);
         sender.broadcastInHotbar(this.content);
+    }
+
+    @Override
+    public void mail(@NotNull Player player) {
+        Tools.makeServerExecuteCommand(
+                "mail send " + player.getName() + " " + STRING_COLOR.toColoredComponent(this.content.getContent())
+        );
+    }
+
+    @Override
+    public void mail(@NotNull Collection<Player> players) {
+        players.forEach(this::mail);
     }
 
     private MessageRecipient setAdditionalContent(MessagePart part, @Nullable String additionalContent) {

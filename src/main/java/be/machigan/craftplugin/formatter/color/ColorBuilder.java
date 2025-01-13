@@ -2,7 +2,6 @@ package be.machigan.craftplugin.formatter.color;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

@@ -3,7 +3,6 @@ package be.machigan.craftplugin.menu.item.builder;
 import be.machigan.craftplugin.formatter.color.StringColor;
 import be.machigan.craftplugin.menu.item.Item;
 import com.google.common.base.Preconditions;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.Collections;
