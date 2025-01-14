@@ -44,6 +44,18 @@ public class InventoryItem {
                 ;
     }
 
+    public boolean hasCancelClick() {
+        return this.item().hasNamedSpacedKey(CLICK_EVENT_KEY);
+    }
+
+    public boolean hasClickEvent() {
+        return this.item().hasNamedSpacedKey(CLICK_EVENT_KEY);
+    }
+
+    public boolean hasCloseInventoryOnClick() {
+        return this.item().hasNamedSpacedKey(CLICK_CLOSE_INVENTORY);
+    }
+
     public ItemBuilder builder() {
         return this.builder;
     }
