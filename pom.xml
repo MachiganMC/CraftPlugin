@@ -6,7 +6,7 @@
 
     <groupId>be.machigan</groupId>
     <artifactId>craftplugin</artifactId>
-    <version>1.0.0-a.9</version>
+    <version>dev</version>
     <packaging>jar</packaging>
     <name>CraftPlugin</name>
     <url>https://github.com/MachiganMC/CraftPlugin</url>

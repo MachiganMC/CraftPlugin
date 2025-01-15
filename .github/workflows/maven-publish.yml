@@ -2,6 +2,11 @@ name: Publish package to Maven Central
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: Version of the release
+        required: true
+        default: '1.0.0'
   release:
     types: [created]
 
@@ -46,6 +51,17 @@ jobs:
           echo "    </server>" >> ~/.m2/settings.xml
           echo "  </servers>" >> ~/.m2/settings.xml
           echo "</settings>" >> ~/.m2/settings.xml
+
+      - name: Set version in pom.xml
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+          elif [ "${{ github.event_name }}" == "release" ]; then
+            VERSION="${{ github.event.release.tag_name }}"
+          fi
+          echo "Setting version to $VERSION"
+          
+          sed -i "s/<version>.*<\/version>/<version>$VERSION<\/version>/" pom.xml
 
       - name: Publish package to Maven Central
         run: mvn clean deploy -P release -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSWORD }}
