@@ -61,7 +61,7 @@ jobs:
           fi
           echo "Setting version to $VERSION"
           
-          sed -i "s/<version>.*<\/version>/<version>$VERSION<\/version>/" pom.xml
+          sed -i '0,/<version>.*<\/version>/s/<version>.*<\/version>/<version>'"$VERSION"'<\/version>/' pom.xml
 
       - name: Publish package to Maven Central
         run: mvn clean deploy -P release -DskipTests -Dgpg.passphrase=${{ secrets.GPG_PASSWORD }}
