@@ -123,15 +123,19 @@ public abstract class ItemBuilder {
         return new InventoryItem(this.item);
     }
 
-    public ItemBuilder applyIf(boolean condition, ParameterRunnable<Item> applyIfTrue, @Nullable ParameterRunnable<Item> applyElse) {
+    public ItemBuilder applyIf(
+            boolean condition,
+            ParameterRunnable<ItemBuilder> applyIfTrue,
+            @Nullable ParameterRunnable<ItemBuilder> applyElse
+    ) {
         if (condition)
-            applyIfTrue.run(this.item);
+            applyIfTrue.run(this);
         else if (applyElse != null)
-            applyElse.run(this.item);
+            applyElse.run(this);
         return this;
     }
 
-    public ItemBuilder applyIf(boolean condition, ParameterRunnable<Item> applyIfTrue) {
+    public ItemBuilder applyIf(boolean condition, ParameterRunnable<ItemBuilder> applyIfTrue) {
         return this.applyIf(condition, applyIfTrue, null);
     }
 }
