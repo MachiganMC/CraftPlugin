@@ -10,6 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 
 import java.util.ArrayList;
@@ -120,5 +121,17 @@ public abstract class ItemBuilder {
 
     public InventoryItem inventoryItem() {
         return new InventoryItem(this.item);
+    }
+
+    public ItemBuilder applyIf(boolean condition, ParameterRunnable<Item> applyIfTrue, @Nullable ParameterRunnable<Item> applyElse) {
+        if (condition)
+            applyIfTrue.run(this.item);
+        else if (applyElse != null)
+            applyElse.run(this.item);
+        return this;
+    }
+
+    public ItemBuilder applyIf(boolean condition, ParameterRunnable<Item> applyIfTrue) {
+        return this.applyIf(condition, applyIfTrue, null);
     }
 }
