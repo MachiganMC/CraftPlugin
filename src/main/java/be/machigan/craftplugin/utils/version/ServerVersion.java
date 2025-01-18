@@ -40,7 +40,7 @@ public class ServerVersion {
     }
 
     private static MinecraftVersion getMinecraftVersion() {
-        String bukkitVersion = Bukkit.getBukkitVersion();
+        String bukkitVersion = Bukkit.getServer().getMinecraftVersion();
         Matcher matcher = Pattern.compile("(?<version>\\d+\\.\\d+)(?<patch>\\.\\d+)?").matcher(bukkitVersion);
         if (matcher.find()) {
             return MinecraftVersion.fromString(
