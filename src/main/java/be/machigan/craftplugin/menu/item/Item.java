@@ -82,7 +82,7 @@ public class Item {
             return builder(CUSTOM_HEAD_CACHE.get(b64).clone());
         ItemStack head = Provider.getCustomHeadProvider().customHeadFromBase64(b64);
         CUSTOM_HEAD_CACHE.put(b64, head);
-        return builder(head);
+        return builder(head.clone());
     }
 
     public static ItemBuilder playerHead(@NotNull OfflinePlayer player) {
@@ -93,7 +93,7 @@ public class Item {
         meta.setOwningPlayer(player);
         item.setItemMeta(meta);
         PLAYER_HEAD_CACHE.put(player.getUniqueId(), item);
-        return builder(item);
+        return builder(item.clone());
     }
 
     public void applyToMeta(ParameterRunnable<ItemMeta> applyToMeta) {
