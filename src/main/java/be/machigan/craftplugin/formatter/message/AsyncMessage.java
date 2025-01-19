@@ -172,9 +172,8 @@ public class AsyncMessage implements MessageRecipient {
         this.sendAndApplyModifier(() -> this.message.mail(players));
     }
 
-    @Override
-    public void reload() {
-        this.message.reload();
+    public static void reload() {
+        Message.reload();
     }
 
     public @NotNull AsyncMessageQueue toQueue() {

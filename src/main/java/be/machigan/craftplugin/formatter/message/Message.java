@@ -206,8 +206,7 @@ public class Message implements MessageRecipient {
         settings = newSettings;
     }
 
-    @Override
-    public void reload() {
+    public static void reload() {
         settings.reload();
     }
 

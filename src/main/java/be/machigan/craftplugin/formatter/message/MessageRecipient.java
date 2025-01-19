@@ -12,8 +12,6 @@ import java.util.Map;
 
 public interface MessageRecipient extends Sender {
 
-    void reload();
-
     void send(@NotNull Player player);
 
     void send(@NotNull CommandSender sender);
