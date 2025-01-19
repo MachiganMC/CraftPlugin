@@ -12,6 +12,7 @@ import be.machigan.craftplugin.menu.item.Item;
 import be.machigan.craftplugin.utils.version.ServerVersion;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
@@ -57,7 +58,7 @@ public class InventoryMenu implements InventoryHolder {
     }
 
     public void fireClickEvent(UUID key, InventoryMenuClickEvent eventData) {
-        this.clickEvents.get(key).forEach(event -> event.run(eventData));
+        this.clickEvents.get(key).stream().toList().forEach(event -> event.run(eventData));
     }
 
     public void addLifeCycleEvent(InventoryLifeCycleEvent event) {
