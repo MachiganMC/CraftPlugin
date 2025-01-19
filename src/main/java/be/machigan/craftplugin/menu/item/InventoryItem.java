@@ -26,7 +26,10 @@ public class InventoryItem {
     }
 
     public InventoryItem onClick(InventoryMenu menu, ParameterRunnable<InventoryMenuClickEvent> onClickEvent) {
-        UUID eventIdentifier = UUID.randomUUID();
+        UUID eventIdentifier = this.builder.inventoryItem().hasClickEvent() ?
+                builder.build().getNamedSpacedKeyValue(CLICK_EVENT_KEY, UuidDataType.INSTANCE) :
+                UUID.randomUUID()
+                ;
         this.builder.addNamedSpacedKey(CLICK_EVENT_KEY, UuidDataType.INSTANCE, eventIdentifier);
         menu.addClickEvent(eventIdentifier, onClickEvent);
         return this;

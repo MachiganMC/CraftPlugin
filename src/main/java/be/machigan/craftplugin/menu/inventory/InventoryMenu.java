@@ -10,6 +10,8 @@ import be.machigan.craftplugin.menu.inventory.builder.PaperInventoryMenuCreator;
 import be.machigan.craftplugin.menu.inventory.builder.SpigotInventoryMenuCreator;
 import be.machigan.craftplugin.menu.item.Item;
 import be.machigan.craftplugin.utils.version.ServerVersion;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
@@ -25,7 +27,7 @@ public class InventoryMenu implements InventoryHolder {
     private boolean isOpen = false;
     @Getter @Setter
     private boolean cancelClick = false;
-    private final Map<UUID, ParameterRunnable<InventoryMenuClickEvent>> clickEvents = new HashMap<>();
+    private final Multimap<UUID, ParameterRunnable<InventoryMenuClickEvent>> clickEvents = ArrayListMultimap.create();
     private final List<ParameterRunnable<InventoryMenuCloseEvent>> closeEvents = new ArrayList<>();
     @Getter
     private final List<InventoryLifeCycleEvent> lifeCycleEvents = new ArrayList<>();
@@ -55,10 +57,7 @@ public class InventoryMenu implements InventoryHolder {
     }
 
     public void fireClickEvent(UUID key, InventoryMenuClickEvent eventData) {
-        ParameterRunnable<InventoryMenuClickEvent> event = this.clickEvents.get(key);
-        if (event == null)
-            throw new IllegalArgumentException("Event with uuid not found : " + key);
-        event.run(eventData);
+        this.clickEvents.get(key).forEach(event -> event.run(eventData));
     }
 
     public void addLifeCycleEvent(InventoryLifeCycleEvent event) {
