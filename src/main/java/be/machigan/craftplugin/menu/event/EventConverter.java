@@ -40,7 +40,7 @@ public class EventConverter {
         if (
                         inventory == null
                         || inventory.getHolder() == null
-                        || !(inventory instanceof InventoryMenu)
+                        || !(inventory.getHolder() instanceof InventoryMenu)
         )
             throw new IllegalArgumentException("The event doesn't concern an InventoryMenu");
     }
