@@ -130,6 +130,7 @@ public class Message implements MessageRecipient {
 
     @Override
     public void mail(@NotNull OfflinePlayer player) {
+        this.replaceCustomPlaceholders();
         Tools.makeServerExecuteCommand(
                 "mail send " + player.getName() + " " + STRING_COLOR.toColoredComponent(this.content.getContent())
         );
@@ -137,7 +138,10 @@ public class Message implements MessageRecipient {
 
     @Override
     public void mail(@NotNull Collection<OfflinePlayer> players) {
-        players.forEach(this::mail);
+        this.replaceCustomPlaceholders();
+        players.forEach(player -> Tools.makeServerExecuteCommand(
+                "mail send " + player.getName() + " " + STRING_COLOR.toColoredComponent(this.content.getContent())
+        ));
     }
 
     private MessageRecipient setAdditionalContent(MessagePart part, @Nullable String additionalContent) {
