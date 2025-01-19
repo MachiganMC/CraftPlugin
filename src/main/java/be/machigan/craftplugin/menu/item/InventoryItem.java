@@ -48,7 +48,7 @@ public class InventoryItem {
     }
 
     public boolean hasCancelClick() {
-        return this.item().hasNamedSpacedKey(CLICK_EVENT_KEY);
+        return this.item().hasNamedSpacedKey(CANCEL_CLICK_KEY);
     }
 
     public boolean hasClickEvent() {
