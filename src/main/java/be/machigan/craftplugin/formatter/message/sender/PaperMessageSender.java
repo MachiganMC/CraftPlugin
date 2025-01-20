@@ -36,7 +36,7 @@ public class PaperMessageSender implements ComponentSender {
         String hover = content.getAdditionalContent(MessagePart.HOVER);
         if (hover != null)
             chatComponent = chatComponent.hoverEvent(HoverEvent.showText(color.toColoredComponent(hover)));
-        String runCommand = content.getAdditionalContent(MessagePart.SUGGESTED_COMMAND);
+        String runCommand = content.getAdditionalContent(MessagePart.RUN_COMMAND);
         if (runCommand != null)
             chatComponent = chatComponent.clickEvent(ClickEvent.runCommand(runCommand));
         String suggestedCommand = content.getAdditionalContent(MessagePart.SUGGESTED_COMMAND);
