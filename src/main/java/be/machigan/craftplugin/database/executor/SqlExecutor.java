@@ -18,7 +18,7 @@ public class SqlExecutor {
     public void secureQuery(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
-            @Nullable ParameterRunnable<ResultSet> fromResultSet
+            @Nullable ParameterSqlTask<ResultSet> fromResultSet
     ) throws SQLException {
         if (this.connection == null) return;
         try (PreparedStatement ps = this.connection.prepareStatement(sql)) {
@@ -42,7 +42,7 @@ public class SqlExecutor {
     public void secureQueryCatchError(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
-            @Nullable ParameterRunnable<ResultSet> fromResultSet,
+            @Nullable ParameterSqlTask<ResultSet> fromResultSet,
             @NotNull ParameterRunnable<SQLException> onError
     ) {
         try {

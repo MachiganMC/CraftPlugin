@@ -22,7 +22,7 @@ public class AsynchronousSqlExecutor extends SqlExecutor {
     public void secureQuery(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
-            @Nullable ParameterRunnable<ResultSet> fromResultSet
+            @Nullable ParameterSqlTask<ResultSet> fromResultSet
     ) {
         TASK_QUEUE.addTask(() -> super.secureQuery(sql, applyToPreparedStatement, fromResultSet));
     }
@@ -39,7 +39,7 @@ public class AsynchronousSqlExecutor extends SqlExecutor {
     public void secureQueryCatchError(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
-            @Nullable ParameterRunnable<ResultSet> fromResultSet,
+            @Nullable ParameterSqlTask<ResultSet> fromResultSet,
             @NotNull ParameterRunnable<SQLException> onError
     ) {
         TASK_QUEUE.addTask(() -> super.secureQueryCatchError(sql, applyToPreparedStatement, fromResultSet, onError));
