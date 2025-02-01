@@ -45,7 +45,7 @@ public class PaperItemBuilder extends ItemBuilder {
             List<Component> lore = meta.lore();
             if (lore == null)
                 lore = new ArrayList<>();
-            lore.add(this.color.toColoredComponent(line));
+            lore.add(this.colorAndRemoveDefaultItalic(line));
             meta.lore(lore);
         });
     }
