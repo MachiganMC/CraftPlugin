@@ -10,9 +10,13 @@ import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 public class FileUtils {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void generateFileFromResourcesIfNotExists(File file) throws IOException {
         String dataFolder = CraftPlugin.getPlugin().getDataFolder().getPath();
         String resourcesPath = file.getPath().replace(dataFolder, "");
+        File dataFolderFile = new File(dataFolder);
+        if (!dataFolderFile.exists())
+            dataFolderFile.mkdir();
         if (!file.exists()) {
             Files.copy(
                     Objects.requireNonNull(CraftPlugin.getPlugin().getClass().getResourceAsStream(resourcesPath)),
