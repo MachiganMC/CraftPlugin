@@ -1,7 +1,6 @@
 package be.machigan.craftplugin.database;
 
 import be.machigan.craftplugin.CraftPlugin;
-import org.bukkit.Bukkit;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -11,11 +10,11 @@ public class AsynchronousSqlTaskQueue {
     private final LinkedList<SqlTask> taskQueue = new LinkedList<>();
 
     public void addTask(SqlTask task) {
-        if (taskQueue.isEmpty()) {
-            taskQueue.add(task);
-            Bukkit.getScheduler().runTaskAsynchronously(CraftPlugin.getPlugin(), this::executeTask);
-        } else {
-            taskQueue.add(task);
+        taskQueue.addLast(task);
+        if (taskQueue.size() == 1) {
+            // The Thread is used instead of Bukkit#runTaskAsynchronously because, with the Bukkit the FIFO of the
+            // LinkedList is not always respected and only god knows why.
+            new Thread(this::executeTask).start();
         }
     }
 
