@@ -37,7 +37,7 @@ public class InventoryMenu implements InventoryHolder {
             new SpigotInventoryMenuCreator()
             ;
 
-    private InventoryMenu(String name, InventoryMenuSize size) {
+    protected InventoryMenu(String name, InventoryMenuSize size) {
         this.inventory = menuCreator.createInventory(name, size, this);
     }
 
