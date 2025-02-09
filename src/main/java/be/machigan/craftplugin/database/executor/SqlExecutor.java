@@ -6,16 +6,13 @@ import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @AllArgsConstructor
 public class SqlExecutor {
     protected final Connection connection;
 
-    public void secureQuery(
+    public void query(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
             @Nullable ParameterSqlTask<ResultSet> fromResultSet
@@ -32,33 +29,33 @@ public class SqlExecutor {
         }
     }
 
-    public void secureQuery(
+    public void query(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement
     ) throws SQLException {
-        secureQuery(sql, applyToPreparedStatement, null);
+        query(sql, applyToPreparedStatement, null);
     }
 
-    public void secureQueryCatchError(
+    public void queryCatchError(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
             @Nullable ParameterSqlTask<ResultSet> fromResultSet,
             @NotNull ParameterRunnable<SQLException> onError
     ) {
         try {
-            secureQuery(sql, applyToPreparedStatement, fromResultSet);
+            query(sql, applyToPreparedStatement, fromResultSet);
         } catch (SQLException e) {
             onError.run(e);
         }
     }
 
-    public void secureQueryCatchError(
+    public void queryCatchError(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
             @NotNull ParameterRunnable<SQLException> onError
     ) {
         try {
-            secureQuery(sql, applyToPreparedStatement, null);
+            query(sql, applyToPreparedStatement, null);
         } catch (SQLException e) {
             onError.run(e);
         }

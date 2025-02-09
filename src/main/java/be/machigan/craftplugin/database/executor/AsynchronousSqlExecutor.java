@@ -23,38 +23,38 @@ public class AsynchronousSqlExecutor extends SqlExecutor {
     }
 
     @Override
-    public void secureQuery(
+    public void query(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
             @Nullable ParameterSqlTask<ResultSet> fromResultSet
     ) {
-        TASK_QUEUE.addTask(() -> super.secureQuery(sql, applyToPreparedStatement, fromResultSet));
+        TASK_QUEUE.addTask(() -> super.query(sql, applyToPreparedStatement, fromResultSet));
     }
 
     @Override
-    public void secureQuery(
+    public void query(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement
     ) {
-        this.secureQuery(sql, applyToPreparedStatement, null);
+        TASK_QUEUE.addTask(() -> super.query(sql, applyToPreparedStatement, null));
     }
 
     @Override
-    public void secureQueryCatchError(
+    public void queryCatchError(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
             @Nullable ParameterSqlTask<ResultSet> fromResultSet,
             @NotNull ParameterRunnable<SQLException> onError
     ) {
-        TASK_QUEUE.addTask(() -> super.secureQueryCatchError(sql, applyToPreparedStatement, fromResultSet, onError));
+        TASK_QUEUE.addTask(() -> super.queryCatchError(sql, applyToPreparedStatement, fromResultSet, onError));
     }
 
     @Override
-    public void secureQueryCatchError(
+    public void queryCatchError(
             @NotNull String sql,
             @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
             @NotNull ParameterRunnable<SQLException> onError
     ) {
-        this.secureQueryCatchError(sql, applyToPreparedStatement, null, onError);
+        this.queryCatchError(sql, applyToPreparedStatement, null, onError);
     }
 }
