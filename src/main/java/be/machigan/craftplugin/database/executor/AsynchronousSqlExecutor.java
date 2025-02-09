@@ -57,4 +57,13 @@ public class AsynchronousSqlExecutor extends SqlExecutor {
     ) {
         this.queryCatchError(sql, applyToPreparedStatement, null, onError);
     }
+
+    public <T> void queryGetGenerateValueAsync(
+            @NotNull String sql,
+            @Nullable ParameterSqlTask<PreparedStatement> applyToPreparedStatement,
+            Class<T> generateKeyType,
+            ParameterSqlTask<T> onObtain
+    ) {
+        TASK_QUEUE.addTask(() -> onObtain.run(super.queryGetGenerateValue(sql, applyToPreparedStatement, generateKeyType)));
+    }
 }
