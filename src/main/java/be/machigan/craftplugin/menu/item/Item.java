@@ -98,20 +98,24 @@ public class Item {
 
     public void applyToMeta(ParameterRunnable<ItemMeta> applyToMeta) {
         ItemMeta meta = this.itemStack.getItemMeta();
+        if (meta == null) return;
         applyToMeta.run(meta);
         this.itemStack.setItemMeta(meta);
     }
 
     public boolean hasNamedSpacedKey(NamespacedKey key) {
+        if (this.itemStack.getItemMeta() == null) return false;
         return this.itemStack.getItemMeta().getPersistentDataContainer().has(key);
     }
 
     public <T> boolean hasNamedSpacedKey(NamespacedKey key, PersistentDataType<?, T> type) {
+        if (this.itemStack.getItemMeta() == null) return false;
         return this.itemStack.getItemMeta().getPersistentDataContainer().has(key, type);
     }
 
     @Nullable
     public <T> T getNamedSpacedKeyValue(NamespacedKey key, PersistentDataType<?, T> type) {
+        if (this.itemStack.getItemMeta() == null) return null;
         PersistentDataContainer container = this.itemStack.getItemMeta().getPersistentDataContainer();
         if (container.has(key, type))
             return container.get(key, type);
