@@ -33,4 +33,12 @@ public class AsynchronousSqlTaskQueue {
         if (taskQueue.isEmpty()) return;
         this.executeTask();
     }
+
+    public boolean isEmpty() {
+        return taskQueue.isEmpty();
+    }
+
+    public int size() {
+        return taskQueue.size();
+    }
 }

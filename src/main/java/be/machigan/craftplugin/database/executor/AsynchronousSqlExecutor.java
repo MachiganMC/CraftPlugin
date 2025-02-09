@@ -18,6 +18,10 @@ public class AsynchronousSqlExecutor extends SqlExecutor {
         super(connection);
     }
 
+    public static boolean hasRemainingTasks() {
+        return !TASK_QUEUE.isEmpty();
+    }
+
     @Override
     public void secureQuery(
             @NotNull String sql,

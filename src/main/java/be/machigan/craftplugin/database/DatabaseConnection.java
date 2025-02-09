@@ -60,4 +60,14 @@ public abstract class DatabaseConnection {
             return true;
         }
     }
+
+    public static boolean hasRemainingAsynchronousTasks() {
+        return AsynchronousSqlExecutor.hasRemainingTasks();
+    }
+
+    public static void syncRemainingAsynchronousTasks() {
+        while (true) {
+            if (!hasRemainingAsynchronousTasks()) break;
+        }
+    }
 }
