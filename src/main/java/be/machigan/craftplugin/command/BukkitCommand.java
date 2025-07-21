@@ -42,6 +42,8 @@ public class BukkitCommand<T extends CommandSender> extends Command {
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
         if (!(sender instanceof Player player) || args.length == 0)
             return Collections.emptyList();
+        if (!this.command.getExecutor().canExecute(player))
+            return Collections.emptyList();
         if (args.length == 1)
             return this.command.getTabCompleterType().complete(this.command, args[0]);
         ArgumentHolder<T> currentArgument = this.command;
@@ -49,9 +51,10 @@ public class BukkitCommand<T extends CommandSender> extends Command {
             currentArgument = currentArgument.getSubArguments().get(args[i - 1]);
             if (currentArgument == null)
                 return Collections.emptyList();
+            if (!currentArgument.getExecutor().canExecute(player)) {
+                return Collections.emptyList();
+            }
         }
-        if (currentArgument.getExecutor().canExecute(player))
-            return currentArgument.getTabCompleterType().complete(currentArgument, args[args.length - 1]);
-        return Collections.emptyList();
+        return currentArgument.getTabCompleterType().complete(currentArgument, args[args.length - 1]);
     }
 }
