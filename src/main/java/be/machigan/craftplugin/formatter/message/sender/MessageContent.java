@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
+import java.util.LinkedList;
 
 @ApiStatus.Internal
 public class MessageContent {
@@ -18,6 +19,7 @@ public class MessageContent {
     @Setter
     private String content;
     private final EnumMap<MessagePart, String> additionalContent = new EnumMap<>(MessagePart.class);
+    private final LinkedList<MessageContent> toAppend = new LinkedList<>();
 
     public MessageContent(MessageSettings settings, String path, OfflinePlayer player) {
         this.content = settings.getContent(path, player);
@@ -44,5 +46,9 @@ public class MessageContent {
 
     public void setAdditionalContent(@NotNull MessagePart part, @Nullable String value) {
         this.additionalContent.put(part, value);
+    }
+
+    public void append(MessageContent contentToAppend) {
+        this.toAppend.addLast(contentToAppend);
     }
 }

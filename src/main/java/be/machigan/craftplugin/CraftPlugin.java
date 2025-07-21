@@ -1,5 +1,6 @@
 package be.machigan.craftplugin;
 
+import be.machigan.craftplugin.command.CommandHandler;
 import be.machigan.craftplugin.internal.exception.PluginNotRegisteredException;
 import be.machigan.craftplugin.menu.event.InventoryEventHandler;
 import be.machigan.craftplugin.utils.version.ServerVersion;
@@ -33,6 +34,10 @@ public final class CraftPlugin {
         command.setExecutor(executor);
         if (completer != null)
             command.setTabCompleter(completer);
+    }
+
+    public static void registerCommand(@NotNull CommandHandler commandHandler) {
+        commandHandler.register();
     }
 
     public static void registerCommand(@NotNull String commandStr, @NotNull CommandExecutor executor) {
