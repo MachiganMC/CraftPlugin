@@ -220,7 +220,11 @@ public class Message implements MessageRecipient {
         settings.setMessagesFile(new File(CraftPlugin.getPlugin().getDataFolder(), "messages.yml"));
     }
 
+    public static void log(String message, String pluginPrefix) {
+        Bukkit.getConsoleSender().sendMessage(AnsiColor.ansi(pluginPrefix + " " + message));
+    }
+
     public static void log(String message) {
-        Bukkit.getConsoleSender().sendMessage(AnsiColor.ansi(message));
+        log(message, "[" + CraftPlugin.getPlugin().getName() + "]");
     }
 }
