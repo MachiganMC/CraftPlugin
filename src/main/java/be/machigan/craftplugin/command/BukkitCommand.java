@@ -25,15 +25,14 @@ public class BukkitCommand<T extends CommandSender> extends Command {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String s, @NotNull String[] args) {
-        LinkedList<String> arguments = new LinkedList<>(Arrays.asList(args));
         try {
             this.command.execute(new CommandData<>(
                     this.command.convertToSender(sender),
                     this.command,
                     null,
-                    arguments,
-                    arguments
-            ), arguments);
+                    new LinkedList<>(Arrays.asList(args)),
+                    List.of(args)
+            ));
         } catch (StopCommandSignal ignored) {}
         return true;
     }
@@ -42,19 +41,23 @@ public class BukkitCommand<T extends CommandSender> extends Command {
     public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) throws IllegalArgumentException {
         if (!(sender instanceof Player player) || args.length == 0)
             return Collections.emptyList();
-        if (!this.command.getExecutor().canExecute(player))
+        if (argumentCannotComplete(this.command, player)) {
             return Collections.emptyList();
-        if (args.length == 1)
-            return this.command.getTabCompleterType().complete(this.command, args[0]);
+        }
+        if (args.length == 1) {
+            return this.command.getTabCompleterType().complete(new TabCompleterContext(this.command, player), args[0]);
+        }
         ArgumentHolder<T> currentArgument = this.command;
         for (int i = 1; i < args.length; i++) {
-            currentArgument = currentArgument.getSubArguments().get(args[i - 1]);
-            if (currentArgument == null)
-                return Collections.emptyList();
-            if (!currentArgument.getExecutor().canExecute(player)) {
+            currentArgument = currentArgument.getSubArguments().next(args[i - 1]);
+            if (argumentCannotComplete(currentArgument, player)) {
                 return Collections.emptyList();
             }
         }
-        return currentArgument.getTabCompleterType().complete(currentArgument, args[args.length - 1]);
+        return currentArgument.getTabCompleterType().complete(new TabCompleterContext(currentArgument, player), args[args.length - 1]);
+    }
+
+    private static boolean argumentCannotComplete(ArgumentHolder<?> argument, Player player) {
+        return argument == null || !argument.getExecutor().canExecute(player);
     }
 }

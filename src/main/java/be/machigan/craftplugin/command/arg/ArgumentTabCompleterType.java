@@ -1,5 +1,6 @@
 package be.machigan.craftplugin.command.arg;
 
+import be.machigan.craftplugin.command.TabCompleterContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -16,14 +17,26 @@ import java.util.function.Function;
 public enum ArgumentTabCompleterType {
     EMPTY(l -> Collections.emptyList()),
     PLAYERS_LIST(l -> Bukkit.getOnlinePlayers().stream().map(Player::getName).toList()),
-    ARGUMENTS_LIST(a -> a.getSubArguments().values().stream().map(ArgumentHolder::getName).toList()),
-    CUSTOM_LIST(a -> a.getSubArguments() != null ? a.getCustomTabCompleterGetter().get() : Collections.emptyList());
+    AUTO(c -> c.getCurrentArgument().getSubArguments().getArgumentTabCompleter()),
+    CUSTOM_LIST(
+            c -> {
+                ArgumentHolder<?> argument = c.getCurrentArgument();
+                if (argument == null)
+                    return Collections.emptyList();
+                return argument
+                        .getCustomTabCompleterGetter()
+                        .apply(c.getSender())
+                        .stream()
+                        .map(String::valueOf)
+                        .toList();
+            }
+    );
 
-    private final Function<ArgumentHolder<?>, List<String>> argumentToStringListConvertor;
+    private final Function<TabCompleterContext, List<String>> argumentToStringListConvertor;
 
-    public List<String> complete(ArgumentHolder<?> currentArg, String nextArg) {
+    public List<String> complete(TabCompleterContext context, String nextArg) {
         List<String> tab = new ArrayList<>();
-        List<String> completions = this.argumentToStringListConvertor.apply(currentArg);
+        List<String> completions = this.argumentToStringListConvertor.apply(context);
         StringUtil.copyPartialMatches(nextArg, completions, tab);
         return tab;
     }

@@ -1,7 +1,7 @@
 package be.machigan.craftplugin.command;
 
 import be.machigan.craftplugin.CraftPlugin;
-import be.machigan.craftplugin.command.arg.ArgumentHolder;
+import be.machigan.craftplugin.command.arg.NamedArgument;
 import be.machigan.craftplugin.internal.exception.StopCommandSignal;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class CommandHandler<T extends CommandSender> {
 
     @ApiStatus.Internal
-    public void register() {
+    public final void register() {
         Command command = this.buildCommand();
         try {
             Field commandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
@@ -31,7 +31,7 @@ public abstract class CommandHandler<T extends CommandSender> {
     }
 
     private Command buildCommand() {
-        ArgumentHolder<T> pluginCommand = this.getCommand();
+        NamedArgument<T> pluginCommand = this.getCommand();
         Command command = new BukkitCommand<>(pluginCommand.getName(), pluginCommand);
         command.setAliases(this.getAliases());
         command.setDescription(this.getDescription());
@@ -39,11 +39,11 @@ public abstract class CommandHandler<T extends CommandSender> {
         return command;
     }
 
-    public static void stopCommand() {
+    public static void stopCommand() throws StopCommandSignal {
         throw new StopCommandSignal();
     }
 
-    public abstract ArgumentHolder<T> getCommand();
+    public abstract NamedArgument<T> getCommand();
 
     public List<String> getAliases() {
         return Collections.emptyList();

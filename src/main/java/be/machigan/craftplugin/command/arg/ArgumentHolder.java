@@ -1,90 +1,61 @@
 package be.machigan.craftplugin.command.arg;
 
+import be.machigan.craftplugin.command.CommandUtils;
 import be.machigan.craftplugin.command.PermissionExecutor;
+import be.machigan.craftplugin.command.arg.sub.SubArgumentHolder;
 import be.machigan.craftplugin.command.data.CommandData;
-import com.google.common.base.Preconditions;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 @Getter
+@Setter
+@Accessors(chain = true)
 public abstract class ArgumentHolder<T extends CommandSender> {
-    protected final String name;
-    protected PermissionExecutor<T> executor;
-    protected Consumer<CommandData<T>> onArgumentNotExist;
+    protected final PermissionExecutor<T> executor;
     protected Consumer<CommandData<T>> onNoArg;
-    protected final Map<String, ? extends ArgumentHolder<T>> subArguments;
+    protected final SubArgumentHolder<T> subArguments;
     protected ArgumentTabCompleterType tabCompleterType;
-    protected Supplier<List<String>> customTabCompleterGetter;
+    protected Function<Player, List<Object>> customTabCompleterGetter;
 
     protected ArgumentHolder(
-            @NotNull String name,
             @Nullable PermissionExecutor<T> executor,
-            @Nullable Consumer<CommandData<T>> onArgumentNotExist,
+            @NotNull SubArgumentHolder<T> subArguments,
             @Nullable Consumer<CommandData<T>> onNoArg,
-            @NotNull Map<String, ArgumentHolder<T>> subArguments,
             @NotNull ArgumentTabCompleterType tabCompleterType,
-            @Nullable Supplier<List<String>> customTabCompleterGetter
+            @Nullable Function<Player, List<Object>> customTabCompleterGetter
     ) {
-        name = name.toLowerCase().strip();
-        Preconditions.checkArgument(!name.isEmpty(), "Name of an argument/command cannot be empty");
-        this.name = name;
         this.executor = executor;
-        this.onArgumentNotExist = onArgumentNotExist;
         this.onNoArg = onNoArg;
         this.subArguments = subArguments;
         this.tabCompleterType = tabCompleterType;
         this.customTabCompleterGetter = customTabCompleterGetter;
     }
 
-    public void execute(CommandData<T> commandData, LinkedList<String> leftArguments) {
-        executeIfNotNull(this.executor, commandData);
-        if (leftArguments.isEmpty()) {
-            executeIfNotNull(this.onNoArg, commandData);
+    public void execute(CommandData<T> commandData) {
+        CommandUtils.executeIfNotNull(this.executor, commandData);
+        if (commandData.getRemainingArguments().isEmpty()) {
+            CommandUtils.executeIfNotNull(this.onNoArg, commandData);
             return;
         }
-        String nextArgumentString = leftArguments.removeFirst();
-        ArgumentHolder<T> nextArgument = this.subArguments.get(nextArgumentString);
-        if (nextArgument == null) {
-            executeIfNotNull(this.onArgumentNotExist, commandData);
-            return;
-        }
-        nextArgument.execute(new CommandData<>(
-                commandData.getSender(),
-                commandData.getCurrentArgument(),
-                this,
-                leftArguments,
-                commandData.getArguments()
-        ), leftArguments);
-    }
-
-    private static <T extends CommandSender> void executeIfNotNull(@Nullable Consumer<CommandData<T>> consumer, CommandData<T> commandData) {
-        if (consumer != null)
-            consumer.accept(commandData);
-    }
-
-    protected static <T extends CommandSender> PermissionExecutor<T> consumerToPermissionExecutor(Consumer<CommandData<T>> consumer) {
-        if (consumer instanceof PermissionExecutor)
-            return  (PermissionExecutor<T>) consumer;
-        return new PermissionExecutor<>(null, consumer, null);
-    }
-
-    protected static <T extends CommandSender> Map<String, ArgumentHolder<T>> argumentsArrayToMap(ArgumentHolder<T>[] subArguments) {
-        return Arrays.stream(subArguments).collect(Collectors.toMap(ArgumentHolder::getName, argument -> argument));
-    }
-
-    protected static <T extends CommandSender> ArgumentTabCompleterType tabCompleterTypeFromSubArguments(ArgumentHolder<T>[] subArguments) {
-        return subArguments.length == 0 ? ArgumentTabCompleterType.EMPTY : ArgumentTabCompleterType.ARGUMENTS_LIST;
+        this.subArguments.execute(commandData);
     }
 
     public abstract T convertToSender(CommandSender sender);
+
+    public ArgumentHolder<T> setCustomTabCompleterGetter(@NotNull Function<Player, List<Object>> tabCompleterGetter) {
+        Objects.requireNonNull(tabCompleterGetter);
+        this.customTabCompleterGetter = tabCompleterGetter;
+        this.tabCompleterType = ArgumentTabCompleterType.CUSTOM_LIST;
+        return this;
+    }
 }
