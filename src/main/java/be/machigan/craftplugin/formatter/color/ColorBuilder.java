@@ -37,6 +37,7 @@ public abstract class ColorBuilder<C> {
 
     @SuppressWarnings("deprecation") // deprecated by Paper, but the server can be on Spigot
     protected String replaceColor(String text) {
+        text = CustomColor.replace(text);
         String b1;
         String b2;
         String w;
