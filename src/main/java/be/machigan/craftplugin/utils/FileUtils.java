@@ -14,10 +14,8 @@ public class FileUtils {
     public static void generateFileFromResourcesIfNotExists(File file) throws IOException {
         String dataFolder = CraftPlugin.getPlugin().getDataFolder().getPath();
         String resourcesPath = file.getPath().replace(dataFolder, "");
-        File dataFolderFile = new File(dataFolder);
-        if (!dataFolderFile.exists())
-            dataFolderFile.mkdir();
         if (!file.exists()) {
+            file.mkdirs();
             Files.copy(
                     Objects.requireNonNull(CraftPlugin.getPlugin().getClass().getResourceAsStream(resourcesPath)),
                     Paths.get(file.getPath()),
