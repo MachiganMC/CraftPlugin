@@ -18,9 +18,9 @@ public class PaperColor extends ColorBuilder<Component> {
         if (colors.isEmpty()) return Component.text(s);
         String[] texts = s.split(RGB_COLOR_REGEX);
         component = component.append(Component.text(texts[0]));
-        for (int i = 0; i < colors.size(); i++) {
+        for (int i = 0, j = 1; i < colors.size() && j < texts.length; i++, j++) {
             component = component.append(Component
-                    .text(texts[i + 1])
+                    .text(texts[j])
                     .color(TextColor.fromHexString(colors.get(i))));
         }
         return component;
